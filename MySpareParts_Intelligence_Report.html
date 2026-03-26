@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySpareParts Market Intelligence Report</title>
+    <style>
+        @media print {
+            body { font-size: 11pt; }
+            .page-break { page-break-before: always; }
+            a { color: #F36E21 !important; }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px;
+            background: #fff;
+        }
+
+        h1 {
+            color: #393E46;
+            border-bottom: 4px solid #F36E21;
+            padding-bottom: 15px;
+            font-size: 28pt;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #F36E21;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            font-size: 18pt;
+        }
+
+        h3 {
+            color: #393E46;
+            margin-top: 25px;
+            font-size: 14pt;
+        }
+
+        h4 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 12pt;
+        }
+
+        .header-meta {
+            color: #666;
+            font-size: 11pt;
+            margin-bottom: 30px;
+        }
+
+        .executive-summary {
+            background: #fef9e7;
+            border-left: 4px solid #F36E21;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .alert-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .alert-box.danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 10pt;
+        }
+
+        th {
+            background: #393E46;
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        a {
+            color: #F36E21;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .competitor-card {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .competitor-card.threat-high {
+            border-left: 4px solid #dc3545;
+        }
+
+        .competitor-card h4 {
+            margin-top: 0;
+            color: #393E46;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 9pt;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .tag.threat-high { background: #dc3545; color: white; }
+        .tag.threat-medium { background: #ffc107; color: #333; }
+        .tag.threat-low { background: #28a745; color: white; }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            padding: 5px 0;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #888;
+            font-size: 10pt;
+            text-align: center;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<h1>MySpareParts Market Intelligence Report</h1>
+
+<div class="header-meta">
+    <strong>Prepared for:</strong> MySpareParts Team (Coen & Colleagues)<br>
+    <strong>Date:</strong> March 26, 2026<br>
+    <strong>Prepared by:</strong> Felipe Sardi with Claude AI
+</div>
+
+<div class="toc">
+    <strong>Table of Contents</strong>
+    <ul>
+        <li>1. <a href="#executive">Executive Summary</a></li>
+        <li>2. <a href="#market">Market Overview</a></li>
+        <li>3. <a href="#competitors">Competitive Landscape</a></li>
+        <li>4. <a href="#technology">Technology Battleground</a></li>
+        <li>5. <a href="#automation">Automated Intelligence System</a></li>
+        <li>6. <a href="#tools">Tools & Resources</a></li>
+        <li>7. <a href="#recommendations">Strategic Recommendations</a></li>
+        <li>8. <a href="#links">Key Links Summary</a></li>
+    </ul>
+</div>
+
+<h2 id="executive">1. Executive Summary</h2>
+
+<div class="executive-summary">
+    <p>This report summarizes the market intelligence work completed for MySpareParts, a B2B spare parts marketplace for heavy equipment (agriculture, construction, municipal vehicles) in Europe.</p>
+
+    <p><strong>Key Deliverables:</strong></p>
+    <ul>
+        <li>Interactive Market Dashboard with 25+ competitor analysis</li>
+        <li>Automated Weekly Newsletter via N8N (every Monday 8AM CET)</li>
+        <li>GitHub repository for collaboration</li>
+    </ul>
+</div>
+
+<div class="alert-box danger">
+    <strong>Key Finding:</strong> Partao (Luxembourg) emerged as the primary competitive threat — same target sectors, Amazon executive DNA, and €3M seed funding with aggressive growth plans.
+</div>
+
+<h2 id="market">2. Market Overview</h2>
+
+<h3>Market Size</h3>
+<table>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>Total Addressable Market (TAM)</td><td><strong>€54 Billion</strong></td></tr>
+    <tr><td>Projected Market (2032)</td><td><strong>€85 Billion</strong></td></tr>
+    <tr><td>CAGR</td><td>5.8%</td></tr>
+    <tr><td>Competitors Analyzed</td><td>25+</td></tr>
+    <tr><td>Recent Funding in Sector</td><td>€50M+</td></tr>
+</table>
+
+<h3>Target Sectors</h3>
+<ul>
+    <li><strong>Agricultural Machinery</strong> — Tractors, harvesters, implements</li>
+    <li><strong>Construction Equipment</strong> — Excavators, loaders, cranes</li>
+    <li><strong>Municipal Vehicles</strong> — Trucks, sanitation, fleet</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2 id="competitors">3. Competitive Landscape</h2>
+
+<h3>HIGH THREAT: Startups to Watch</h3>
+
+<div class="competitor-card threat-high">
+    <h4>Partao (Luxembourg) <span class="tag threat-high">PRIMARY THREAT</span></h4>
+    <table>
+        <tr><td><strong>Funding</strong></td><td>€3M Seed (Mangrove, FJ Labs, Vinted founder)</td></tr>
+        <tr><td><strong>Team</strong></td><td>Amazon executive DNA (CEO: 16-year Amazon veteran)</td></tr>
+        <tr><td><strong>Scale</strong></td><td>5M+ SKUs, targeting 50M</td></tr>
+        <tr><td><strong>Sectors</strong></td><td>SAME as MySpareParts (agri, construction, municipal)</td></tr>
+        <tr><td><strong>Recent</strong></td><td>Selected for Luxembourg Fit 4 Scale program (Jan 2026)</td></tr>
+    </table>
+    <p><strong>Why Dangerous:</strong> Combines Amazon operational excellence with deep pockets and identical market focus.</p>
+</div>
+
+<div class="competitor-card">
+    <h4>SPARETECH (Germany) <span class="tag threat-medium">MEDIUM THREAT</span></h4>
+    <p><strong>Funding:</strong> €10M Series A | <strong>Focus:</strong> AI-powered spare parts management | <strong>Founders:</strong> Ex-Porsche executives</p>
+</div>
+
+<div class="competitor-card">
+    <h4>Partium (Austria) <span class="tag threat-medium">MEDIUM THREAT</span></h4>
+    <p><strong>Funding:</strong> $15M Series A | <strong>Focus:</strong> Visual AI parts identification | <strong>Clients:</strong> Deutsche Bahn | <strong>Claim:</strong> "Identify parts in 2 seconds"</p>
+</div>
+
+<div class="competitor-card">
+    <h4>Synthavo (Germany) <span class="tag threat-medium">MEDIUM THREAT</span></h4>
+    <p><strong>Funding:</strong> €4M Seed | <strong>Focus:</strong> AI parts identification | <strong>Strength:</strong> Deep tech approach</p>
+</div>
+
+<div class="competitor-card">
+    <h4>Ovoko (Lithuania) <span class="tag threat-low">LOWER THREAT</span></h4>
+    <p><strong>Funding:</strong> €20M Series B | <strong>Focus:</strong> Used/recycled parts marketplace | <strong>Strength:</strong> Sustainability angle (different segment)</p>
+</div>
+
+<h3>MEDIUM THREAT: Distributors</h3>
+<table>
+    <tr><th>Company</th><th>Country</th><th>Scale</th><th>Notes</th></tr>
+    <tr><td>TVH Group</td><td>Belgium</td><td>€3.65B valuation</td><td>Largest independent, massive catalog</td></tr>
+    <tr><td>Kramp</td><td>Netherlands</td><td>€1.8B revenue</td><td>Strong in agricultural</td></tr>
+    <tr><td>AGCO Parts</td><td>USA/Global</td><td>OEM backing</td><td>Fendt, Massey Ferguson parts</td></tr>
+</table>
+
+<h3>WATCH: OEM Digital Platforms</h3>
+<table>
+    <tr><th>OEM</th><th>Platform</th><th>Technology</th></tr>
+    <tr><td>CNH Industrial</td><td>Parts.NewHolland.com</td><td>AI Visual Parts Search</td></tr>
+    <tr><td>Caterpillar</td><td>Parts.cat.com</td><td>Integrated dealer network</td></tr>
+    <tr><td>John Deere</td><td>JDParts</td><td>Precision ag integration</td></tr>
+    <tr><td>Liebherr</td><td>MyLiebherr</td><td>Digital twin integration</td></tr>
+    <tr><td>JCB</td><td>JCB LiveLink</td><td>Telematics-driven</td></tr>
+</table>
+
+<h3>Market Consolidation</h3>
+<p><strong>RB Global</strong> is acquiring and consolidating: Mascus, SmartEquip, IronPlanet, Ritchie Bros</p>
+
+<div class="page-break"></div>
+
+<h2 id="technology">4. Technology Battleground</h2>
+
+<h3>AI/ML Adoption Across Competitors</h3>
+<table>
+    <tr><th>Capability</th><th>Leaders</th><th>MySpareParts Opportunity</th></tr>
+    <tr><td>Visual Parts ID</td><td>Partium, Synthavo</td><td><span class="tag threat-high">HIGH</span> Differentiate with superior UX</td></tr>
+    <tr><td>Predictive Maintenance</td><td>OEMs (CNH, CAT)</td><td><span class="tag threat-medium">MEDIUM</span> Partner potential</td></tr>
+    <tr><td>Smart Cataloging</td><td>SPARETECH</td><td><span class="tag threat-high">HIGH</span> Core feature needed</td></tr>
+    <tr><td>Voice Search</td><td>Emerging</td><td><span class="tag threat-low">LOW</span> Future consideration</td></tr>
+</table>
+
+<h2 id="automation">5. Automated Intelligence System</h2>
+
+<h3>Weekly Newsletter Workflow</h3>
+<p>We created an automated N8N workflow that delivers a professional intelligence brief every <strong>Monday at 8:00 AM CET</strong>.</p>
+
+<h4>Data Sources (19 feeds)</h4>
+<ul>
+    <li><strong>Stock Data:</strong> John Deere, Caterpillar, CNH Industrial, AGCO, US Steel</li>
+    <li><strong>Competitor RSS:</strong> Partao, SPARETECH, Partium, Synthavo, Ovoko, TVH</li>
+    <li><strong>Industry RSS:</strong> Spare parts, agricultural machinery, construction equipment</li>
+    <li><strong>AI Summary:</strong> Perplexity API for executive insights</li>
+</ul>
+
+<h4>Newsletter Sections</h4>
+<ol>
+    <li>Executive Summary (AI-generated)</li>
+    <li>OEM Stock Watch</li>
+    <li>Competitor Watch</li>
+    <li>Industry News</li>
+    <li>Agricultural Parts</li>
+    <li>Construction Parts</li>
+    <li>Technology & AI</li>
+    <li>Funding & Deals</li>
+    <li>EU Regulatory</li>
+    <li>Supply Chain</li>
+</ol>
+
+<div class="page-break"></div>
+
+<h2 id="tools">6. Tools & Resources</h2>
+
+<h3>Live Dashboard</h3>
+<p><strong>URL:</strong> <a href="https://fsardi19.github.io/mysparepartsmarket-intelligence/MySpareParts_Market_Dashboard.html">https://fsardi19.github.io/mysparepartsmarket-intelligence/MySpareParts_Market_Dashboard.html</a></p>
+<p>Interactive features: Tabbed competitor view, Market size charts, Funding timeline, Strategic recommendations</p>
+
+<h3>GitHub Repository</h3>
+<p><strong>URL:</strong> <a href="https://github.com/Fsardi19/mysparepartsmarket-intelligence">https://github.com/Fsardi19/mysparepartsmarket-intelligence</a></p>
+<p>Contents: Dashboard HTML, N8N workflow JSON, Documentation</p>
+
+<h3>N8N Workflow</h3>
+<p><strong>Location:</strong> coffeegeek.app.n8n.cloud<br>
+<strong>Workflow:</strong> MySpareParts Weekly Intelligence Brief<br>
+<strong>Schedule:</strong> Every Monday 8:00 AM CET<br>
+<strong>Recipients:</strong> coen@myspareparts.com, felipe@lapalmayeltucan.com</p>
+
+<h2 id="recommendations">7. Strategic Recommendations</h2>
+
+<h3>Immediate Actions (0-3 months)</h3>
+<ol>
+    <li><strong>Monitor Partao closely</strong> — Set up Google Alerts, track their job postings</li>
+    <li><strong>Accelerate AI features</strong> — Visual parts ID is becoming table stakes</li>
+    <li><strong>Strengthen EU positioning</strong> — Right to Repair creates opportunity</li>
+</ol>
+
+<h3>Medium-term (3-12 months)</h3>
+<ol>
+    <li><strong>Partnership strategy</strong> — Consider OEM integrations (CNH, AGCO)</li>
+    <li><strong>Technology investment</strong> — AI catalog enrichment</li>
+    <li><strong>Geographic expansion</strong> — Establish presence before Partao scales</li>
+</ol>
+
+<h3>Defensive Moves</h3>
+<ol>
+    <li><strong>Lock in key suppliers</strong> — Exclusive or preferred agreements</li>
+    <li><strong>Customer loyalty program</strong> — Increase switching costs</li>
+    <li><strong>Content marketing</strong> — Establish thought leadership</li>
+</ol>
+
+<h2 id="links">8. Key Links Summary</h2>
+
+<table>
+    <tr><th>Resource</th><th>URL</th></tr>
+    <tr><td>Live Dashboard</td><td><a href="https://fsardi19.github.io/mysparepartsmarket-intelligence/MySpareParts_Market_Dashboard.html">fsardi19.github.io/mysparepartsmarket-intelligence/...</a></td></tr>
+    <tr><td>GitHub Repo</td><td><a href="https://github.com/Fsardi19/mysparepartsmarket-intelligence">github.com/Fsardi19/mysparepartsmarket-intelligence</a></td></tr>
+    <tr><td>N8N Cloud</td><td><a href="https://coffeegeek.app.n8n.cloud">coffeegeek.app.n8n.cloud</a></td></tr>
+    <tr><td>Partao Website</td><td><a href="https://partao.com">partao.com</a></td></tr>
+    <tr><td>SPARETECH</td><td><a href="https://sparetech.io">sparetech.io</a></td></tr>
+    <tr><td>Partium</td><td><a href="https://partium.io">partium.io</a></td></tr>
+</table>
+
+<h3>Competitor Funding Timeline</h3>
+<table>
+    <tr><th>Date</th><th>Company</th><th>Round</th><th>Amount</th></tr>
+    <tr><td>2025</td><td>Partao</td><td>Seed</td><td>€3M</td></tr>
+    <tr><td>2024</td><td>Ovoko</td><td>Series B</td><td>€20M</td></tr>
+    <tr><td>2024</td><td>Partium</td><td>Series A</td><td>$15M</td></tr>
+    <tr><td>2024</td><td>SPARETECH</td><td>Series A</td><td>€10M</td></tr>
+    <tr><td>2024</td><td>Synthavo</td><td>Seed</td><td>€4M</td></tr>
+</table>
+
+<div class="footer">
+    <p>Report generated with Claude AI assistance. Data current as of March 2026.</p>
+    <p style="color: #F36E21;"><strong>MySpareParts</strong> — B2B Spare Parts Intelligence</p>
+</div>
+
+</body>
+</html>

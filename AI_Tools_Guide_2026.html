@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern AI Tools & Automation Guide 2026</title>
+    <style>
+        @media print {
+            body { font-size: 11pt; }
+            .page-break { page-break-before: always; }
+            a { color: #D97706 !important; }
+            .no-print { display: none; }
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #1f2937;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px;
+            background: #fff;
+        }
+
+        h1 {
+            color: #1f2937;
+            border-bottom: 4px solid #D97706;
+            padding-bottom: 15px;
+            font-size: 28pt;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #D97706;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+            margin-top: 45px;
+            font-size: 18pt;
+        }
+
+        h3 {
+            color: #374151;
+            margin-top: 30px;
+            font-size: 14pt;
+        }
+
+        h4 {
+            color: #6b7280;
+            margin-top: 20px;
+            font-size: 12pt;
+        }
+
+        .header-meta {
+            color: #6b7280;
+            font-size: 11pt;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%);
+            border: 1px solid #fcd34d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .tool-card.claude {
+            background: linear-gradient(135deg, #fce7d6 0%, #fff7ed 100%);
+            border-color: #D97706;
+        }
+
+        .tool-card.openai {
+            background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+            border-color: #10b981;
+        }
+
+        .tool-card.n8n {
+            background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%);
+            border-color: #ec4899;
+        }
+
+        .tool-card h3 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 9pt;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge.anthropic { background: #D97706; color: white; }
+        .badge.openai { background: #10b981; color: white; }
+        .badge.automation { background: #ec4899; color: white; }
+        .badge.free { background: #3b82f6; color: white; }
+        .badge.paid { background: #6b7280; color: white; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 10pt;
+        }
+
+        th {
+            background: #1f2937;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        a {
+            color: #D97706;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: #1f2937;
+            color: #fbbf24;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 10pt;
+        }
+
+        pre {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 10pt;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #e5e7eb;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .diagram {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre;
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+
+        .tip-box {
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .toc {
+            background: #f9fafb;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            columns: 2;
+        }
+
+        .toc li {
+            padding: 6px 0;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            color: #9ca3af;
+            font-size: 10pt;
+            text-align: center;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Modern AI Tools & Automation Guide</h1>
+
+<div class="header-meta">
+    <strong>Workshop:</strong> AI-Powered Workflows for Business Intelligence<br>
+    <strong>Date:</strong> March 26, 2026<br>
+    <strong>Instructor:</strong> Felipe Sardi<br>
+    <strong>Topics:</strong> Claude Code, Claude AI, Deep Research, MCP, N8N Automation
+</div>
+
+<div class="toc">
+    <strong>Table of Contents</strong>
+    <ul>
+        <li>1. <a href="#claude-ai">Claude AI Overview</a></li>
+        <li>2. <a href="#claude-code">Claude Code (Terminal)</a></li>
+        <li>3. <a href="#claude-cowork">Claude Co-Work</a></li>
+        <li>4. <a href="#deep-research">Deep Research Features</a></li>
+        <li>5. <a href="#mcp">Model Context Protocol (MCP)</a></li>
+        <li>6. <a href="#n8n">N8N Automation</a></li>
+        <li>7. <a href="#workflow">Complete Workflow Example</a></li>
+        <li>8. <a href="#resources">Resources & Links</a></li>
+    </ul>
+</div>
+
+<h2 id="claude-ai">1. Claude AI Overview</h2>
+
+<div class="tool-card claude">
+    <h3><span class="badge anthropic">Anthropic</span> Claude AI</h3>
+    <p>Claude is Anthropic's AI assistant, available in multiple versions and interfaces.</p>
+</div>
+
+<h3>Available Models (2026)</h3>
+<table>
+    <tr><th>Model</th><th>Best For</th><th>Context Window</th></tr>
+    <tr><td><strong>Claude Opus 4.5</strong></td><td>Complex reasoning, coding, analysis</td><td>200K tokens</td></tr>
+    <tr><td>Claude Sonnet 4</td><td>Balanced performance/speed</td><td>200K tokens</td></tr>
+    <tr><td>Claude Haiku</td><td>Fast, simple tasks</td><td>200K tokens</td></tr>
+</table>
+
+<h3>Access Methods</h3>
+<table>
+    <tr><th>Interface</th><th>URL</th><th>Best For</th></tr>
+    <tr><td>Claude.ai (Web)</td><td><a href="https://claude.ai">claude.ai</a></td><td>General chat, documents, artifacts</td></tr>
+    <tr><td>Claude Code (CLI)</td><td>Terminal installation</td><td>Coding, file operations, automation</td></tr>
+    <tr><td>Claude API</td><td><a href="https://console.anthropic.com">console.anthropic.com</a></td><td>Integrations, apps</td></tr>
+    <tr><td>Claude for Enterprise</td><td>Contact Anthropic</td><td>Teams, security, admin</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2 id="claude-code">2. Claude Code (Terminal AI)</h2>
+
+<div class="tool-card claude">
+    <h3><span class="badge anthropic">Anthropic</span> <span class="badge paid">Pro/Max Plan</span> Claude Code</h3>
+    <p>AI assistant that runs directly in your terminal with full access to your file system, git, and development tools.</p>
+</div>
+
+<h3>Installation</h3>
+<pre><code># Install via npm (Node.js required)
+npm install -g @anthropic-ai/claude-code
+
+# Or via Homebrew (macOS)
+brew install claude-code
+
+# Login
+claude login</code></pre>
+
+<h3>Key Features</h3>
+<ul>
+    <li><strong>File Operations:</strong> Read, write, edit any file in your project</li>
+    <li><strong>Git Integration:</strong> Commits, branches, PRs, all via natural language</li>
+    <li><strong>Code Generation:</strong> Write entire features, fix bugs, refactor</li>
+    <li><strong>Multi-file Editing:</strong> Changes across your entire codebase</li>
+    <li><strong>Web Search:</strong> Research while coding</li>
+    <li><strong>Task Management:</strong> Built-in todo tracking</li>
+</ul>
+
+<h3>Common Commands</h3>
+<pre><code># Start Claude Code in current directory
+claude
+
+# Start with a specific task
+claude "fix the bug in auth.js"
+
+# Resume previous conversation
+claude --resume
+
+# Use specific model
+claude --model opus</code></pre>
+
+<h3>Slash Commands</h3>
+<table>
+    <tr><th>Command</th><th>Function</th></tr>
+    <tr><td><code>/help</code></td><td>Show available commands</td></tr>
+    <tr><td><code>/clear</code></td><td>Clear conversation</td></tr>
+    <tr><td><code>/commit</code></td><td>Create git commit from changes</td></tr>
+    <tr><td><code>/review</code></td><td>Code review current changes</td></tr>
+    <tr><td><code>/cost</code></td><td>Show token usage</td></tr>
+</table>
+
+<div class="tip-box">
+    <strong>Pro Tip:</strong> Claude Code can run multiple "agents" in parallel for complex tasks like research across many files simultaneously.
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="claude-cowork">3. Claude Co-Work</h2>
+
+<div class="tool-card claude">
+    <h3><span class="badge anthropic">Anthropic</span> <span class="badge paid">Max Plan</span> Co-Work Mode</h3>
+    <p>Background AI assistant that works autonomously on tasks while you do other things.</p>
+</div>
+
+<h3>How It Works</h3>
+<div class="diagram">
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   You assign    │────▶│  Claude works   │────▶│  You review     │
+│   a task        │     │  in background  │     │  results        │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                              │
+                              ▼
+                        Notifications
+                        when complete
+</div>
+
+<h3>Best Use Cases</h3>
+<ul>
+    <li><strong>Research:</strong> "Research all competitors in the spare parts market"</li>
+    <li><strong>Code Review:</strong> "Review all PRs from this week"</li>
+    <li><strong>Documentation:</strong> "Document all API endpoints"</li>
+    <li><strong>Data Analysis:</strong> "Analyze sales data and create a report"</li>
+</ul>
+
+<h3>Example Session</h3>
+<pre><code># In Claude.ai with Max plan
+You: "I need you to research Partao, SPARETECH, and Partium
+     competitors. Find their funding, team, and recent news.
+     Work on this in the background."
+
+Claude: "I'll work on this research task. You'll be notified
+        when I've completed the analysis."
+
+[Claude researches autonomously for 10-15 minutes]
+
+Claude: "Research complete. Here's what I found..."</code></pre>
+
+<div class="page-break"></div>
+
+<h2 id="deep-research">4. Deep Research Features</h2>
+
+<h3>Claude Deep Research</h3>
+<div class="tool-card claude">
+    <h3><span class="badge anthropic">Anthropic</span> Extended Thinking + Web Search</h3>
+    <p>Claude can perform multi-step research by searching the web, reading sources, and synthesizing information.</p>
+</div>
+
+<h4>Capabilities</h4>
+<ul>
+    <li>Web search with real-time results</li>
+    <li>Multiple source verification</li>
+    <li>Extended thinking for complex analysis</li>
+    <li>Citation of sources</li>
+</ul>
+
+<h3>ChatGPT Deep Research</h3>
+<div class="tool-card openai">
+    <h3><span class="badge openai">OpenAI</span> <span class="badge paid">Plus/Pro</span> Deep Research</h3>
+    <p>OpenAI's research mode that browses the web extensively to answer complex questions.</p>
+</div>
+
+<h4>Capabilities</h4>
+<ul>
+    <li>Autonomous web browsing (dozens of sources)</li>
+    <li>Takes 5-30 minutes per query</li>
+    <li>Produces detailed reports with citations</li>
+    <li>Good for market research, academic queries</li>
+</ul>
+
+<h3>Comparison</h3>
+<table>
+    <tr><th>Feature</th><th>Claude</th><th>ChatGPT</th></tr>
+    <tr><td>Web Search</td><td>Yes (integrated)</td><td>Yes (browsing mode)</td></tr>
+    <tr><td>Research Time</td><td>Seconds to minutes</td><td>5-30 minutes</td></tr>
+    <tr><td>Depth</td><td>Medium-High</td><td>Very High</td></tr>
+    <tr><td>Citations</td><td>Yes</td><td>Yes, detailed</td></tr>
+    <tr><td>Best For</td><td>Quick research + action</td><td>Deep academic research</td></tr>
+</table>
+
+<h3>Perplexity AI</h3>
+<div class="tool-card">
+    <h3><span class="badge free">Free + Pro</span> Perplexity</h3>
+    <p>Search engine + AI that provides answers with sources. Excellent for quick fact-checking and research.</p>
+    <p><strong>URL:</strong> <a href="https://perplexity.ai">perplexity.ai</a></p>
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="mcp">5. Model Context Protocol (MCP)</h2>
+
+<div class="tool-card claude">
+    <h3><span class="badge anthropic">Anthropic</span> MCP - Universal AI Connector</h3>
+    <p>Open protocol that allows AI assistants to connect to external tools, databases, and services.</p>
+</div>
+
+<h3>What is MCP?</h3>
+<p>Think of MCP as a <strong>universal translator</strong> between AI and external tools. Instead of building custom integrations for every service, MCP provides a standard way for AI to:</p>
+<ul>
+    <li>Read from databases</li>
+    <li>Call APIs</li>
+    <li>Execute workflows</li>
+    <li>Access files and services</li>
+</ul>
+
+<h3>Architecture</h3>
+<div class="diagram">
+┌─────────────────┐
+│    Claude AI    │
+│   (or any LLM)  │
+└────────┬────────┘
+         │ MCP Protocol
+         ▼
+┌─────────────────┐
+│   MCP Server    │ ◄── Node.js/Python server
+└────────┬────────┘
+         │
+    ┌────┴────┬────────┬────────┐
+    ▼         ▼        ▼        ▼
+┌───────┐ ┌───────┐ ┌───────┐ ┌───────┐
+│  N8N  │ │Notion │ │Google │ │ Any   │
+│       │ │       │ │ Drive │ │ API   │
+└───────┘ └───────┘ └───────┘ └───────┘
+</div>
+
+<h3>Configuration (Claude Desktop)</h3>
+<p>MCP servers are configured in: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></p>
+
+<pre><code>{
+  "mcpServers": {
+    "n8n-mcp": {
+      "command": "node",
+      "args": ["/path/to/n8n-mcp/dist/mcp/index.js"],
+      "env": {
+        "N8N_API_URL": "https://your-n8n.app.n8n.cloud",
+        "N8N_API_KEY": "your-api-key"
+      }
+    },
+    "google-drive": {
+      "command": "node",
+      "args": ["/path/to/google-drive-mcp/build/index.js"]
+    }
+  }
+}</code></pre>
+
+<h3>Available MCP Servers</h3>
+<table>
+    <tr><th>Server</th><th>Purpose</th><th>Repository</th></tr>
+    <tr><td>n8n-mcp</td><td>Create/manage N8N workflows</td><td>github.com/n8n-io/n8n-mcp</td></tr>
+    <tr><td>notion-mcp</td><td>Read/write Notion pages</td><td>Community</td></tr>
+    <tr><td>google-drive-mcp</td><td>Access Google Drive files</td><td>Community</td></tr>
+    <tr><td>postgres-mcp</td><td>Query PostgreSQL databases</td><td>Community</td></tr>
+    <tr><td>slack-mcp</td><td>Send Slack messages</td><td>Community</td></tr>
+</table>
+
+<div class="tip-box">
+    <strong>Key Insight:</strong> With MCP, you can ask Claude to "create an N8N workflow" and it will actually do it — no copy-paste needed!
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="n8n">6. N8N Automation</h2>
+
+<div class="tool-card n8n">
+    <h3><span class="badge automation">Automation</span> N8N Workflow Automation</h3>
+    <p>Open-source workflow automation tool. Like Zapier but self-hostable and more powerful.</p>
+    <p><strong>URL:</strong> <a href="https://n8n.io">n8n.io</a></p>
+</div>
+
+<h3>Key Concepts</h3>
+<table>
+    <tr><th>Concept</th><th>Description</th></tr>
+    <tr><td><strong>Workflow</strong></td><td>A sequence of connected nodes that process data</td></tr>
+    <tr><td><strong>Node</strong></td><td>A single action (HTTP request, send email, etc.)</td></tr>
+    <tr><td><strong>Trigger</strong></td><td>What starts the workflow (schedule, webhook, etc.)</td></tr>
+    <tr><td><strong>Credentials</strong></td><td>Saved authentication for services (API keys, OAuth)</td></tr>
+</table>
+
+<h3>Useful Nodes</h3>
+<table>
+    <tr><th>Node</th><th>Purpose</th></tr>
+    <tr><td>Schedule Trigger</td><td>Run on schedule (cron)</td></tr>
+    <tr><td>HTTP Request</td><td>Call any API</td></tr>
+    <tr><td>RSS Feed Read</td><td>Fetch news feeds</td></tr>
+    <tr><td>Code</td><td>Custom JavaScript</td></tr>
+    <tr><td>OpenAI / Perplexity</td><td>AI integrations</td></tr>
+    <tr><td>Gmail / Email</td><td>Send emails</td></tr>
+    <tr><td>Merge</td><td>Combine data from multiple sources</td></tr>
+</table>
+
+<h3>Example: Weekly Newsletter Workflow</h3>
+<div class="diagram">
+┌──────────────┐
+│   Schedule   │ ── Monday 8AM CET
+│   Trigger    │
+└──────┬───────┘
+       │
+       ▼ (parallel)
+┌──────────────────────────────────────────────┐
+│ RSS Feeds  │ Stock APIs │ Perplexity AI     │
+│ (12 feeds) │ (5 stocks) │ (research)        │
+└──────────────────────────────────────────────┘
+       │
+       ▼
+┌──────────────┐
+│    Merge     │ ── Combine all data
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│  Code Node   │ ── Process & categorize
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│  Code Node   │ ── Generate HTML email
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│    Gmail     │ ── Send newsletter
+└──────────────┘
+</div>
+
+<div class="page-break"></div>
+
+<h2 id="workflow">7. Complete Workflow Example</h2>
+
+<h3>What We Built Today</h3>
+<p>A complete market intelligence system combining all tools:</p>
+
+<div class="diagram">
+┌─────────────────────────────────────────────────────────────────┐
+│                    MARKET INTELLIGENCE SYSTEM                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐         │
+│  │ Claude Code │───▶│   GitHub    │───▶│ GitHub Pages│         │
+│  │ (Terminal)  │    │    Repo     │    │ (Live Site) │         │
+│  └─────────────┘    └─────────────┘    └─────────────┘         │
+│         │                                     │                  │
+│         │ Creates                             │ Hosts            │
+│         ▼                                     ▼                  │
+│  ┌─────────────┐                      ┌─────────────┐           │
+│  │  Dashboard  │                      │ Public URL  │           │
+│  │   (HTML)    │                      │ for sharing │           │
+│  └─────────────┘                      └─────────────┘           │
+│                                                                  │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐         │
+│  │ Claude Code │───▶│  N8N Cloud  │───▶│   Email     │         │
+│  │    + MCP    │    │  Workflow   │    │ Newsletter  │         │
+│  └─────────────┘    └─────────────┘    └─────────────┘         │
+│         │                  │                  │                  │
+│         │ Creates          │ Runs             │ Sends            │
+│         │ via API          │ Weekly           │ Mondays          │
+│         ▼                  ▼                  ▼                  │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐         │
+│  │  Workflow   │    │ 19 Data     │    │   Team      │         │
+│  │   JSON      │    │  Sources    │    │  Inboxes    │         │
+│  └─────────────┘    └─────────────┘    └─────────────┘         │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</div>
+
+<h3>Step-by-Step Process</h3>
+<ol>
+    <li><strong>Research Phase</strong> — Used Claude with web search to research 25+ competitors</li>
+    <li><strong>Dashboard Creation</strong> — Claude Code created interactive HTML dashboard</li>
+    <li><strong>N8N Workflow</strong> — Created automated newsletter workflow via MCP</li>
+    <li><strong>GitHub Setup</strong> — Created repo and enabled GitHub Pages for sharing</li>
+    <li><strong>Documentation</strong> — Generated reports and guides (this document!)</li>
+</ol>
+
+<h3>Time Spent</h3>
+<table>
+    <tr><th>Task</th><th>Traditional</th><th>With AI Tools</th></tr>
+    <tr><td>Competitor Research</td><td>2-3 days</td><td>30 minutes</td></tr>
+    <tr><td>Dashboard Development</td><td>1-2 days</td><td>20 minutes</td></tr>
+    <tr><td>N8N Workflow Setup</td><td>4-6 hours</td><td>15 minutes</td></tr>
+    <tr><td>Documentation</td><td>1 day</td><td>10 minutes</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>4-6 days</strong></td><td><strong>~1.5 hours</strong></td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2 id="resources">8. Resources & Links</h2>
+
+<h3>Tools Used Today</h3>
+<table>
+    <tr><th>Tool</th><th>URL</th><th>Pricing</th></tr>
+    <tr><td>Claude AI</td><td><a href="https://claude.ai">claude.ai</a></td><td>Free / $20 Pro / $100 Max</td></tr>
+    <tr><td>Claude Code</td><td>npm: @anthropic-ai/claude-code</td><td>Included with Pro/Max</td></tr>
+    <tr><td>N8N Cloud</td><td><a href="https://n8n.io">n8n.io</a></td><td>Free tier / $20+ mo</td></tr>
+    <tr><td>Perplexity</td><td><a href="https://perplexity.ai">perplexity.ai</a></td><td>Free / $20 Pro</td></tr>
+    <tr><td>GitHub</td><td><a href="https://github.com">github.com</a></td><td>Free / $4+ mo</td></tr>
+    <tr><td>ChatGPT</td><td><a href="https://chat.openai.com">chat.openai.com</a></td><td>Free / $20 Plus / $200 Pro</td></tr>
+</table>
+
+<h3>Documentation</h3>
+<table>
+    <tr><th>Resource</th><th>URL</th></tr>
+    <tr><td>Claude Documentation</td><td><a href="https://docs.anthropic.com">docs.anthropic.com</a></td></tr>
+    <tr><td>MCP Protocol Spec</td><td><a href="https://modelcontextprotocol.io">modelcontextprotocol.io</a></td></tr>
+    <tr><td>N8N Documentation</td><td><a href="https://docs.n8n.io">docs.n8n.io</a></td></tr>
+    <tr><td>N8N MCP Server</td><td><a href="https://github.com/n8n-io/n8n-mcp">github.com/n8n-io/n8n-mcp</a></td></tr>
+</table>
+
+<h3>Our Project Links</h3>
+<table>
+    <tr><th>Resource</th><th>URL</th></tr>
+    <tr><td>Live Dashboard</td><td><a href="https://fsardi19.github.io/mysparepartsmarket-intelligence/MySpareParts_Market_Dashboard.html">fsardi19.github.io/mysparepartsmarket-intelligence/...</a></td></tr>
+    <tr><td>GitHub Repo</td><td><a href="https://github.com/Fsardi19/mysparepartsmarket-intelligence">github.com/Fsardi19/mysparepartsmarket-intelligence</a></td></tr>
+    <tr><td>N8N Workflow</td><td>coffeegeek.app.n8n.cloud</td></tr>
+</table>
+
+<h3>Recommended Learning Path</h3>
+<ol>
+    <li><strong>Week 1:</strong> Get comfortable with Claude.ai web interface</li>
+    <li><strong>Week 2:</strong> Install and try Claude Code for a small project</li>
+    <li><strong>Week 3:</strong> Create your first N8N workflow (simple RSS to email)</li>
+    <li><strong>Week 4:</strong> Set up MCP to connect Claude to N8N</li>
+    <li><strong>Ongoing:</strong> Build more complex automations as needed</li>
+</ol>
+
+<div class="warning-box">
+    <strong>Remember:</strong> AI tools are powerful but require human oversight. Always review AI-generated content, especially for business-critical decisions.
+</div>
+
+<div class="footer">
+    <p>Guide created by Felipe Sardi with Claude AI | March 2026</p>
+    <p style="color: #D97706;"><strong>Questions?</strong> felipe@lapalmayeltucan.com</p>
+</div>
+
+</body>
+</html>

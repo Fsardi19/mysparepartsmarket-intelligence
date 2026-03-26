@@ -2,6 +2,16 @@
 
 Market intelligence tools for MySpareParts - a B2B spare parts marketplace for heavy equipment (agriculture, construction, municipal vehicles) in Europe.
 
+## Quick Links (Live Pages)
+
+| Document | View Online |
+|----------|-------------|
+| Market Dashboard | [View Dashboard](https://fsardi19.github.io/mysparepartsmarket-intelligence/MySpareParts_Market_Dashboard.html) |
+| Intelligence Report | [View Report](https://fsardi19.github.io/mysparepartsmarket-intelligence/MySpareParts_Intelligence_Report.html) |
+| AI Tools Guide | [View Guide](https://fsardi19.github.io/mysparepartsmarket-intelligence/AI_Tools_Guide_2026.html) |
+
+---
+
 ## Contents
 
 ### 1. Market Dashboard (`MySpareParts_Market_Dashboard.html`)
