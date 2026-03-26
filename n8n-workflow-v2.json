@@ -1,0 +1,390 @@
+{
+  "name": "MySpareParts Weekly Intelligence Brief",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [1],
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "trigger-main",
+      "name": "Monday 8AM CET",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-1600, 800]
+    },
+    {
+      "parameters": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/X?interval=1d&range=5d",
+        "options": { "timeout": 10000 }
+      },
+      "id": "api-steel",
+      "name": "API - US Steel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1200, 208],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/DE?interval=1d&range=5d",
+        "options": { "timeout": 10000 }
+      },
+      "id": "api-deere",
+      "name": "API - John Deere",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1200, 368],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/CAT?interval=1d&range=5d",
+        "options": { "timeout": 10000 }
+      },
+      "id": "api-cat",
+      "name": "API - Caterpillar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1200, 528],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/CNHI?interval=1d&range=5d",
+        "options": { "timeout": 10000 }
+      },
+      "id": "api-cnh",
+      "name": "API - CNH Industrial",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1200, 688],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/AGCO?interval=1d&range=5d",
+        "options": { "timeout": 10000 }
+      },
+      "id": "api-agco",
+      "name": "API - AGCO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1200, 848],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://api.frankfurter.app/latest?from=USD&to=EUR,GBP,CHF,SEK,PLN",
+        "options": { "timeout": 10000 }
+      },
+      "id": "api-forex",
+      "name": "API - Forex EUR",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1200, 1008],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "numberInputs": 6
+      },
+      "id": "merge-markets",
+      "name": "Merge - Markets",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [-800, 600]
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=Partao+spare+parts+OR+SPARETECH+Germany+OR+Partium+Austria+OR+Synthavo+AI+parts&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-competitors",
+      "name": "RSS - Competitors",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 1400],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=spare+parts+marketplace+OR+aftermarket+parts+B2B+OR+heavy+equipment+parts&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-industry",
+      "name": "RSS - Spare Parts Industry",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 1560],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=agricultural+machinery+parts+OR+tractor+parts+market+OR+farm+equipment+aftermarket&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-agri-parts",
+      "name": "RSS - Agricultural Parts",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 1720],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=construction+equipment+parts+OR+excavator+parts+OR+heavy+machinery+aftermarket&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-construction",
+      "name": "RSS - Construction Parts",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 1880],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=municipal+vehicles+parts+OR+truck+parts+aftermarket+OR+fleet+maintenance&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-municipal",
+      "name": "RSS - Municipal/Fleet",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 2040],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=AI+parts+identification+OR+visual+search+spare+parts+OR+machine+learning+maintenance&hl=en&gl=US&ceid=US:en",
+        "options": {}
+      },
+      "id": "rss-tech",
+      "name": "RSS - AI/Tech Parts",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 2200],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=EU+right+to+repair+OR+spare+parts+regulation+OR+machinery+directive+EU&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-regulatory",
+      "name": "RSS - EU Regulatory",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 2360],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=spare+parts+startup+funding+OR+aftermarket+investment+OR+B2B+marketplace+funding&hl=en&gl=US&ceid=US:en",
+        "options": {}
+      },
+      "id": "rss-funding",
+      "name": "RSS - Funding/Deals",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 2520],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=John+Deere+parts+OR+Caterpillar+parts+OR+CNH+parts+OR+AGCO+parts&hl=en&gl=US&ceid=US:en",
+        "options": {}
+      },
+      "id": "rss-oem",
+      "name": "RSS - OEM News",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 2680],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=TVH+parts+OR+Kramp+parts+OR+aftermarket+distributor&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-distributors",
+      "name": "RSS - Distributors",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 2840],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=supply+chain+disruption+parts+OR+logistics+shortage+machinery&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-supply-chain",
+      "name": "RSS - Supply Chain",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 3000],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=Mascus+OR+IronPlanet+OR+Ritchie+Bros+OR+equipment+marketplace&hl=en&gl=EU&ceid=EU:en",
+        "options": {}
+      },
+      "id": "rss-marketplaces",
+      "name": "RSS - Marketplaces",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [-1200, 3160],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "numberInputs": 12
+      },
+      "id": "merge-news",
+      "name": "Merge - All News",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [-800, 2200]
+    },
+    {
+      "parameters": {
+        "model": "sonar-pro",
+        "messages": {
+          "message": [
+            {
+              "content": "You are a market intelligence analyst for MySpareParts, a B2B spare parts marketplace competing in Europe.\n\nWrite a BRIEF, CLEAN executive summary (max 200 words) covering the last 7 days. Format as 3-5 bullet points. NO citations, NO markdown formatting, NO asterisks. Just clean plain text.\n\nCover these topics with ACTIONABLE insights:\n\n1. COMPETITOR MOVES: Partao, SPARETECH, Partium, Synthavo, Ovoko, TVH - what are they doing?\n2. MARKET TRENDS: Any notable shifts in B2B spare parts, aftermarket, heavy equipment?\n3. TECHNOLOGY: AI parts identification, visual search, digital marketplace innovations\n4. REGULATORY: EU Right to Repair, sustainability rules\n5. DEALS: Funding rounds, acquisitions, partnerships\n\nRULES:\n- If no news on a topic, say ONE sentence like \"No major competitor activity this week\" and move on\n- Focus on what MATTERS for a B2B spare parts company\n- Be concise and direct\n- NO citation numbers like [1][2][3]\n- NO markdown like **bold** or *italic*\n- Write in clean, professional prose"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 1500,
+          "temperature": 0.2
+        },
+        "requestOptions": {}
+      },
+      "id": "perplexity-news",
+      "name": "Perplexity - Industry AI",
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [-800, 3500],
+      "credentials": {
+        "perplexityApi": {
+          "id": "H8frrG7eeFSBuXSc",
+          "name": "Perplexity account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "id": "merge-final",
+      "name": "Merge - FINAL",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [-200, 2000]
+    },
+    {
+      "parameters": {
+        "jsCode": "// MySpareParts Data Processing v2.0\nconst allItems = $input.all();\nconst currentDate = new Date();\n\nconst fmt = (n, d=2) => (n === null || n === undefined || isNaN(n)) ? 'N/A' : parseFloat(n).toFixed(d);\nconst pct = (c, p) => (!p || p === 0 || !c) ? null : ((c - p) / p * 100).toFixed(2);\nconst clean = (t) => t ? t.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, ' ').replace(/\\s+/g, ' ').trim().slice(0, 300) : '';\n\n// Clean AI text: remove markdown, citations, asterisks\nconst cleanAI = (t) => {\n  if (!t) return '';\n  return t\n    .replace(/\\[\\d+\\]/g, '')           // Remove [1], [2], etc.\n    .replace(/\\*\\*([^*]+)\\*\\*/g, '$1')  // Remove **bold**\n    .replace(/\\*([^*]+)\\*/g, '$1')      // Remove *italic*\n    .replace(/^[-•]\\s*/gm, '\\u2022 ')   // Normalize bullets\n    .replace(/\\n{3,}/g, '\\n\\n')         // Reduce multiple newlines\n    .trim();\n};\n\nconst heroImages = {\n  competitors: \"https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80\",\n  industry: \"https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80\",\n  technology: \"https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80\",\n  regulatory: \"https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80\",\n  funding: \"https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80\",\n  agri: \"https://images.unsplash.com/photo-1625246333195-58197bd47d19?auto=format&fit=crop&w=800&q=80\",\n  construction: \"https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80\",\n  supplychain: \"https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80\"\n};\n\nconst data = {\n  reportDate: currentDate.toLocaleDateString('en-US', { \n    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', \n    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Amsterdam' \n  }),\n  stocks: {},\n  forex: {},\n  news: {\n    competitors: [],\n    industry: [],\n    agriParts: [],\n    constructionParts: [],\n    municipal: [],\n    technology: [],\n    regulatory: [],\n    funding: [],\n    oem: [],\n    distributors: [],\n    supplyChain: [],\n    marketplaces: []\n  },\n  summaries: {},\n  images: heroImages\n};\n\nconst competitors = ['partao', 'sparetech', 'partium', 'synthavo', 'ovoko', 'tvh'];\n\nallItems.forEach(item => {\n  const j = item.json;\n  \n  // Stock data\n  if (j?.chart?.result?.[0]) {\n    const c = j.chart.result[0];\n    const m = c.meta;\n    const q = c.indicators?.quote?.[0];\n    \n    if (m && q) {\n      const i = (q.close?.length || 1) - 1;\n      const price = q.close?.[i] || m.regularMarketPrice;\n      const prev = m.chartPreviousClose || m.previousClose || q.close?.[i-1];\n      const chg = price && prev ? price - prev : null;\n      const chgPct = pct(price, prev);\n      const s = m.symbol || '';\n      \n      const mk = {\n        price: fmt(price), \n        change: chg !== null ? fmt(chg) : 'N/A',\n        changePercent: chgPct ? chgPct + '%' : 'N/A',\n        isPositive: chg > 0, \n        isNegative: chg < 0\n      };\n      \n      if (s === 'X') data.stocks.steel = { ...mk, name: 'US Steel' };\n      else if (s === 'DE') data.stocks.deere = { ...mk, name: 'John Deere' };\n      else if (s === 'CAT') data.stocks.cat = { ...mk, name: 'Caterpillar' };\n      else if (s === 'CNHI') data.stocks.cnh = { ...mk, name: 'CNH Industrial' };\n      else if (s === 'AGCO') data.stocks.agco = { ...mk, name: 'AGCO' };\n    }\n  }\n  \n  // Forex\n  if (j?.rates && j?.base === 'USD') {\n    data.forex = {\n      EUR: fmt(j.rates.EUR, 4),\n      GBP: fmt(j.rates.GBP, 4),\n      CHF: fmt(j.rates.CHF, 4),\n      SEK: fmt(j.rates.SEK, 4),\n      PLN: fmt(j.rates.PLN, 4)\n    };\n  }\n  \n  // News\n  if (j?.title && (j?.link || j?.url)) {\n    const rawSummary = j.summary || j.description || j.contentSnippet || j.content || '';\n    const summary = clean(rawSummary);\n    const news = { \n      title: j.title?.slice(0, 150), \n      link: j.link || j.url, \n      source: j.source || j.creator || '', \n      pubDate: j.pubDate || j.isoDate || '',\n      summary: summary\n    };\n    const txt = ((j.title || '') + ' ' + (j.link || '') + ' ' + summary).toLowerCase();\n    \n    // Competitor detection\n    if (competitors.some(c => txt.includes(c))) {\n      data.news.competitors.push(news);\n    }\n    \n    // Categories\n    if (txt.match(/agricultur|tractor|farm|harvest|agri/)) data.news.agriParts.push(news);\n    if (txt.match(/construct|excavat|bulldoz|crane|heavy.equip/)) data.news.constructionParts.push(news);\n    if (txt.match(/municipal|fleet|truck|vehicle|sanitation/)) data.news.municipal.push(news);\n    if (txt.match(/ai|artificial|visual.search|machine.learn|automation/)) data.news.technology.push(news);\n    if (txt.match(/regulat|right.to.repair|directive|compliance|eu.law/)) data.news.regulatory.push(news);\n    if (txt.match(/funding|invest|series.[a-c]|seed|acquisition|merger/i)) data.news.funding.push(news);\n    if (txt.match(/deere|caterpillar|cnh|agco|kubota|liebherr|komatsu/)) data.news.oem.push(news);\n    if (txt.match(/tvh|kramp|distributor|wholesale/)) data.news.distributors.push(news);\n    if (txt.match(/supply.chain|logistics|shortage|disruption/)) data.news.supplyChain.push(news);\n    if (txt.match(/mascus|ironplanet|ritchie|marketplace/)) data.news.marketplaces.push(news);\n    if (txt.match(/spare.part|aftermarket|replacement|oem.part/)) data.news.industry.push(news);\n  }\n  \n  // Perplexity - CLEAN the output\n  if (j?.choices?.[0]?.message?.content) {\n    data.summaries.perplexity = cleanAI(j.choices[0].message.content);\n  }\n});\n\nconst sortLimit = (arr, n) => arr\n  .filter(x => x.title)\n  .sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0))\n  .slice(0, n);\n\ndata.news.competitors = sortLimit(data.news.competitors, 10);\ndata.news.industry = sortLimit(data.news.industry, 8);\ndata.news.agriParts = sortLimit(data.news.agriParts, 6);\ndata.news.constructionParts = sortLimit(data.news.constructionParts, 6);\ndata.news.municipal = sortLimit(data.news.municipal, 5);\ndata.news.technology = sortLimit(data.news.technology, 6);\ndata.news.regulatory = sortLimit(data.news.regulatory, 5);\ndata.news.funding = sortLimit(data.news.funding, 6);\ndata.news.oem = sortLimit(data.news.oem, 6);\ndata.news.distributors = sortLimit(data.news.distributors, 5);\ndata.news.supplyChain = sortLimit(data.news.supplyChain, 5);\ndata.news.marketplaces = sortLimit(data.news.marketplaces, 5);\n\nreturn [{ json: data }];"
+      },
+      "id": "process-data",
+      "name": "Process Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [200, 2000]
+    },
+    {
+      "parameters": {
+        "jsCode": "// MySpareParts HTML Report v2.0 - Clean AI Summary\nlet data = {};\ntry {\n  data = $input.first().json;\n} catch (e) {\n  data = {};\n}\n\nconst reportDate = data.reportDate || new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });\nconst imgs = data.images || {};\nconst stocks = data.stocks || {};\nconst forex = data.forex || {};\nconst news = data.news || {};\nconst summaries = data.summaries || {};\n\n// Format AI summary as nice HTML bullets\nfunction formatAISummary(text) {\n  if (!text) return '<p style=\"color:#666;font-style:italic;\">AI summary not available this week.</p>';\n  \n  // Split into lines and format as list\n  const lines = text.split('\\n').filter(l => l.trim());\n  let html = '<ul style=\"margin:0;padding-left:20px;\">';\n  \n  for (const line of lines) {\n    const cleanLine = line.replace(/^[\\u2022\\-\\*]\\s*/, '').trim();\n    if (cleanLine) {\n      html += `<li style=\"margin-bottom:10px;line-height:1.5;\">${cleanLine}</li>`;\n    }\n  }\n  html += '</ul>';\n  return html;\n}\n\nfunction sectionHeader(title, imageUrl, emoji) {\n  return `<div style=\"width: 100%; background-color: #f0f0f0;\"><img src=\"${imageUrl}\" alt=\"${title}\" width=\"600\" style=\"width: 100%; max-width: 100%; height: auto; max-height: 120px; object-fit: cover; display: block; border: 0;\" /></div><div style=\"background-color: #393E46; padding: 12px 20px; border-bottom: 4px solid #F36E21;\"><h2 style=\"margin: 0; color: #ffffff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2;\">${emoji} ${title}</h2></div>`;\n}\n\nfunction newsHtml(items, msg) {\n  if (!items || !Array.isArray(items) || items.length === 0) {\n    return `<div style=\"padding: 15px 20px;\"><p style=\"margin:0; color:#6c757d; font-style:italic; font-size: 13px;\">${msg}</p></div>`;\n  }\n  const listItems = items.map(n => `<li style=\"padding: 10px 0; border-bottom: 1px solid #f0f0f0;\"><a href=\"${n.link || '#'}\" style=\"color:#F36E21; text-decoration:none; font-weight:700; font-size:14px; line-height:1.4; display:block;\" target=\"_blank\">${n.title || 'News'}</a><div style=\"margin-top:4px;\"><span style=\"font-size:10px; color:#666; background:#e9ecef; padding:2px 6px; border-radius:4px; text-transform:uppercase;\">${n.source || 'Source'}</span></div></li>`).join('');\n  return `<ul style=\"list-style:none; padding: 5px 20px 15px; margin:0;\">${listItems}</ul>`;\n}\n\nfunction renderSection(title, imageKey, newsArray, defaultMsg, emoji) {\n  const imageUrl = imgs[imageKey] || imgs.industry || 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80';\n  return `<div style=\"margin-bottom: 30px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background-color: #ffffff;\">${sectionHeader(title, imageUrl, emoji)}${newsHtml(newsArray, defaultMsg)}</div>`;\n}\n\nconst valColor = (val, pos) => {\n  if (val === undefined || val === null || val === 'N/A') return '<span style=\"color:#6c757d;\">N/A</span>';\n  const c = pos === true ? '#28a745' : pos === false ? '#dc3545' : '#333';\n  const a = pos === true ? '▲' : pos === false ? '▼' : '';\n  return `<span style=\"color:${c};font-weight:700;\">${a} ${val}</span>`;\n};\n\nconst weekNum = Math.ceil((new Date() - new Date(new Date().getFullYear(), 0, 1)) / 604800000);\n\nlet html = `<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"></head><body style=\"margin:0;padding:0;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;background-color:#f4f4f4;color:#333;\">\n<div style=\"max-width:600px;margin:20px auto;background-color:#ffffff;border-radius:0px;overflow:hidden;\">\n\n<!-- Header -->\n<div style=\"background-color:#393E46;padding:30px 20px;text-align:center;\">\n  <div style=\"color:#F36E21;font-size:10px;letter-spacing:3px;font-weight:700;margin-bottom:8px;text-transform:uppercase;\">B2B Spare Parts Intelligence</div>\n  <h1 style=\"color:#ffffff;margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px;\">MySpareParts</h1>\n  <p style=\"color:#F36E21;margin:5px 0 0;font-size:16px;font-weight:600;\">Weekly Intelligence Brief</p>\n  <p style=\"color:#9ca3af;margin:10px 0 0;font-size:12px;\">Week ${weekNum} | ${reportDate}</p>\n</div>\n\n<!-- Tagline -->\n<div style=\"background-color:#F36E21;padding:10px;text-align:center;color:#ffffff;font-weight:600;font-size:13px;\">Your competitive edge in the B2B spare parts market</div>\n\n<div style=\"padding:20px;\">\n\n<!-- AI Executive Summary -->\n<div style=\"margin-bottom:25px;background-color:#fef9e7;padding:20px;border-radius:8px;border:1px solid #f5d76e;\">\n  <h3 style=\"margin:0 0 15px;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:#393E46;font-weight:700;border-bottom:2px solid #F36E21;padding-bottom:8px;\">Executive Summary</h3>\n  <div style=\"font-size:13px;color:#333;line-height:1.6;\">\n    ${formatAISummary(summaries.perplexity)}\n  </div>\n</div>\n\n<!-- OEM Stocks -->\n<div style=\"margin-bottom:25px;background-color:#f8f9fa;padding:15px;border-radius:8px;border:1px solid #e0e0e0;\">\n  <h3 style=\"margin:0 0 12px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#393E46;font-weight:700;\">OEM Stock Watch</h3>\n  <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"font-size:12px;\">\n    <tr style=\"background-color:#393E46;color:#fff;\"><th style=\"padding:6px 8px;text-align:left;\">Company</th><th style=\"padding:6px 8px;text-align:right;\">Price</th><th style=\"padding:6px 8px;text-align:right;\">Change</th></tr>\n    <tr><td style=\"padding:6px 8px;border-bottom:1px solid #eee;\">John Deere (DE)</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">$${stocks.deere?.price || '-'}</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">${valColor(stocks.deere?.changePercent, stocks.deere?.isPositive)}</td></tr>\n    <tr><td style=\"padding:6px 8px;border-bottom:1px solid #eee;\">Caterpillar (CAT)</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">$${stocks.cat?.price || '-'}</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">${valColor(stocks.cat?.changePercent, stocks.cat?.isPositive)}</td></tr>\n    <tr><td style=\"padding:6px 8px;border-bottom:1px solid #eee;\">CNH Industrial</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">$${stocks.cnh?.price || '-'}</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">${valColor(stocks.cnh?.changePercent, stocks.cnh?.isPositive)}</td></tr>\n    <tr><td style=\"padding:6px 8px;border-bottom:1px solid #eee;\">AGCO</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">$${stocks.agco?.price || '-'}</td><td style=\"text-align:right;padding:6px 8px;border-bottom:1px solid #eee;\">${valColor(stocks.agco?.changePercent, stocks.agco?.isPositive)}</td></tr>\n    <tr><td style=\"padding:6px 8px;\">US Steel (X)</td><td style=\"text-align:right;padding:6px 8px;\">$${stocks.steel?.price || '-'}</td><td style=\"text-align:right;padding:6px 8px;\">${valColor(stocks.steel?.changePercent, stocks.steel?.isPositive)}</td></tr>\n  </table>\n</div>\n\n<!-- News Sections -->\n${renderSection('Competitor Watch', 'competitors', news.competitors, 'No direct competitor news this week. RSS feeds found no mentions of Partao, SPARETECH, Partium, Synthavo, Ovoko, or TVH.', '🎯')}\n${renderSection('Industry News', 'industry', news.industry, 'No major spare parts industry news from RSS feeds this week.', '📰')}\n${renderSection('Agricultural Parts', 'agri', news.agriParts, 'No agricultural machinery parts news this week.', '🚜')}\n${renderSection('Construction Parts', 'construction', news.constructionParts, 'No construction equipment parts news this week.', '🏗️')}\n${renderSection('Technology & AI', 'technology', news.technology, 'No AI/technology news in the parts space this week.', '🤖')}\n${renderSection('Funding & Deals', 'funding', news.funding, 'No funding rounds or M&A activity reported this week.', '💰')}\n${renderSection('EU Regulatory', 'regulatory', news.regulatory, 'No new EU regulatory developments this week.', '⚖️')}\n${renderSection('OEM Updates', 'industry', news.oem, 'No major OEM news (Deere, CAT, CNH, AGCO) this week.', '🏭')}\n${renderSection('Supply Chain', 'supplychain', news.supplyChain, 'No supply chain disruption news this week.', '📦')}\n\n</div>\n\n<!-- Footer -->\n<div style=\"background-color:#393E46;padding:20px;text-align:center;border-top:4px solid #F36E21;font-size:11px;color:#888;\">\n  <p style=\"margin:0;\">MySpareParts Weekly Intelligence Brief</p>\n  <p style=\"margin:5px 0 0;color:#F36E21;\">Powered by N8N + Perplexity AI</p>\n</div>\n\n</div></body></html>`;\n\nconst dateShort = new Date().toLocaleDateString('en-US', { day:'numeric', month:'short' });\n\nreturn [{ json: { subject: `MySpareParts Intel Brief - Week ${weekNum} | ${dateShort}`, htmlContent: html, reportDate } }];"
+      },
+      "id": "format-html",
+      "name": "Format HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 2000]
+    },
+    {
+      "parameters": {
+        "sendTo": "coen@myspareparts.com, felipe@lapalmayeltucan.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.htmlContent }}",
+        "options": {}
+      },
+      "id": "gmail-send",
+      "name": "Gmail - Send",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1000, 2000],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "P2OyYe0XIUA2MAhO",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Monday 8AM CET": {
+      "main": [[
+        {"node": "API - US Steel", "type": "main", "index": 0},
+        {"node": "API - John Deere", "type": "main", "index": 0},
+        {"node": "API - Caterpillar", "type": "main", "index": 0},
+        {"node": "API - CNH Industrial", "type": "main", "index": 0},
+        {"node": "API - AGCO", "type": "main", "index": 0},
+        {"node": "API - Forex EUR", "type": "main", "index": 0},
+        {"node": "RSS - Competitors", "type": "main", "index": 0},
+        {"node": "RSS - Spare Parts Industry", "type": "main", "index": 0},
+        {"node": "RSS - Agricultural Parts", "type": "main", "index": 0},
+        {"node": "RSS - Construction Parts", "type": "main", "index": 0},
+        {"node": "RSS - Municipal/Fleet", "type": "main", "index": 0},
+        {"node": "RSS - AI/Tech Parts", "type": "main", "index": 0},
+        {"node": "RSS - EU Regulatory", "type": "main", "index": 0},
+        {"node": "RSS - Funding/Deals", "type": "main", "index": 0},
+        {"node": "RSS - OEM News", "type": "main", "index": 0},
+        {"node": "RSS - Distributors", "type": "main", "index": 0},
+        {"node": "RSS - Supply Chain", "type": "main", "index": 0},
+        {"node": "RSS - Marketplaces", "type": "main", "index": 0},
+        {"node": "Perplexity - Industry AI", "type": "main", "index": 0}
+      ]]
+    },
+    "API - US Steel": {"main": [[{"node": "Merge - Markets", "type": "main", "index": 0}]]},
+    "API - John Deere": {"main": [[{"node": "Merge - Markets", "type": "main", "index": 1}]]},
+    "API - Caterpillar": {"main": [[{"node": "Merge - Markets", "type": "main", "index": 2}]]},
+    "API - CNH Industrial": {"main": [[{"node": "Merge - Markets", "type": "main", "index": 3}]]},
+    "API - AGCO": {"main": [[{"node": "Merge - Markets", "type": "main", "index": 4}]]},
+    "API - Forex EUR": {"main": [[{"node": "Merge - Markets", "type": "main", "index": 5}]]},
+    "RSS - Competitors": {"main": [[{"node": "Merge - All News", "type": "main", "index": 0}]]},
+    "RSS - Spare Parts Industry": {"main": [[{"node": "Merge - All News", "type": "main", "index": 1}]]},
+    "RSS - Agricultural Parts": {"main": [[{"node": "Merge - All News", "type": "main", "index": 2}]]},
+    "RSS - Construction Parts": {"main": [[{"node": "Merge - All News", "type": "main", "index": 3}]]},
+    "RSS - Municipal/Fleet": {"main": [[{"node": "Merge - All News", "type": "main", "index": 4}]]},
+    "RSS - AI/Tech Parts": {"main": [[{"node": "Merge - All News", "type": "main", "index": 5}]]},
+    "RSS - EU Regulatory": {"main": [[{"node": "Merge - All News", "type": "main", "index": 6}]]},
+    "RSS - Funding/Deals": {"main": [[{"node": "Merge - All News", "type": "main", "index": 7}]]},
+    "RSS - OEM News": {"main": [[{"node": "Merge - All News", "type": "main", "index": 8}]]},
+    "RSS - Distributors": {"main": [[{"node": "Merge - All News", "type": "main", "index": 9}]]},
+    "RSS - Supply Chain": {"main": [[{"node": "Merge - All News", "type": "main", "index": 10}]]},
+    "RSS - Marketplaces": {"main": [[{"node": "Merge - All News", "type": "main", "index": 11}]]},
+    "Merge - Markets": {"main": [[{"node": "Merge - FINAL", "type": "main", "index": 0}]]},
+    "Merge - All News": {"main": [[{"node": "Merge - FINAL", "type": "main", "index": 1}]]},
+    "Perplexity - Industry AI": {"main": [[{"node": "Merge - FINAL", "type": "main", "index": 2}]]},
+    "Merge - FINAL": {"main": [[{"node": "Process Data", "type": "main", "index": 0}]]},
+    "Process Data": {"main": [[{"node": "Format HTML", "type": "main", "index": 0}]]},
+    "Format HTML": {"main": [[{"node": "Gmail - Send", "type": "main", "index": 0}]]}
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Amsterdam"
+  }
+}

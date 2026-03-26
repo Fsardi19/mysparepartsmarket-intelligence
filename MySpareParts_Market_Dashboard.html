@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySpareParts | Market Intelligence Dashboard v2.0</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #F36E21;
+            --primary-dark: #D85A10;
+            --primary-light: #FF8A47;
+            --secondary: #393E46;
+            --secondary-light: #4A5568;
+            --bg-dark: #1A1D23;
+            --bg-card: #22262E;
+            --bg-card-hover: #2A2F38;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0AEC0;
+            --text-muted: #718096;
+            --success: #48BB78;
+            --warning: #ECC94B;
+            --danger: #F56565;
+            --border: #2D3748;
+            --blue: #4299E1;
+            --purple: #9F7AEA;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--bg-dark) 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text span { color: var(--primary); }
+
+        .header-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .kpi-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .kpi-value.primary { color: var(--primary); }
+        .kpi-value.success { color: var(--success); }
+        .kpi-value.blue { color: var(--blue); }
+
+        .kpi-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .kpi-change.positive {
+            background: rgba(72, 187, 120, 0.15);
+            color: var(--success);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .chart-card.full-width { grid-column: 1 / -1; }
+
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .chart-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-container.tall { height: 400px; }
+
+        /* Competitor Cards */
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        .competitor-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .competitor-card:hover {
+            border-color: var(--primary);
+        }
+
+        .competitor-card.highlight {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(245, 101, 101, 0.05) 0%, var(--bg-card) 100%);
+        }
+
+        .competitor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .competitor-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .competitor-origin {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .competitor-type {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-startup { background: rgba(243, 110, 33, 0.2); color: var(--primary); }
+        .type-distributor { background: rgba(72, 187, 120, 0.2); color: var(--success); }
+        .type-oem { background: rgba(66, 153, 225, 0.2); color: var(--blue); }
+        .type-marketplace { background: rgba(159, 122, 234, 0.2); color: var(--purple); }
+
+        .competitor-stats {
+            display: flex;
+            gap: 1rem;
+            margin: 0.75rem 0;
+            flex-wrap: wrap;
+        }
+
+        .competitor-stat {
+            font-size: 0.8rem;
+        }
+
+        .competitor-stat-label {
+            color: var(--text-muted);
+        }
+
+        .competitor-stat-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .competitor-diff {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .new-badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 6px;
+            margin-left: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* Funding Timeline */
+        .funding-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .funding-card {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 1rem;
+            border-left: 3px solid var(--primary);
+        }
+
+        .funding-date {
+            font-size: 0.7rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .funding-company {
+            font-weight: 600;
+            margin: 0.25rem 0;
+        }
+
+        .funding-amount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .funding-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Country Cards */
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .country-card {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .country-flag { font-size: 2rem; margin-bottom: 0.5rem; }
+        .country-name { font-weight: 600; font-size: 0.9rem; }
+        .country-rank { font-size: 0.75rem; color: var(--primary); font-weight: 600; }
+
+        /* Opportunities */
+        .opportunity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .opportunity-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+        }
+
+        .opportunity-rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .opportunity-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .opportunity-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Recommendations */
+        .recommendation-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-number {
+            min-width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .recommendation-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .recommendation-content p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Tech Trends */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .tech-card {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .tech-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-leader {
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+
+        .tech-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Regulations */
+        .reg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .reg-item {
+            background: var(--bg-dark);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .reg-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reg-impact {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .footer {
+            background: var(--bg-card);
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a { color: var(--primary); text-decoration: none; }
+
+        /* Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, rgba(243, 110, 33, 0.1) 0%, var(--bg-card) 100%);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .summary-item h4 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-item p {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66z"/>
+                    </svg>
+                </div>
+                <div class="logo-text">My<span>Spare</span>Parts</div>
+                <span class="header-badge">v2.0 Enhanced</span>
+            </div>
+            <div style="text-align: right; color: var(--text-secondary); font-size: 0.85rem;">
+                <div style="font-weight: 600; color: var(--text-primary);">Market Intelligence Dashboard</div>
+                <div>European B2B Spare Parts | Q1 2026 | 25+ Competitors Analyzed</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Executive Summary -->
+        <div class="summary-box">
+            <div class="summary-title">Executive Summary: Key Research Findings</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h4>New Threat Identified</h4>
+                    <p style="color: var(--danger);">Partao (Luxembourg) - €3M seed, Amazon exec team, 5M+ SKUs</p>
+                </div>
+                <div class="summary-item">
+                    <h4>AI Becoming Standard</h4>
+                    <p>CNH, Synthavo, Partium leading visual parts search</p>
+                </div>
+                <div class="summary-item">
+                    <h4>OEM Digitalization</h4>
+                    <p>All major OEMs launched parts platforms 2024-2026</p>
+                </div>
+                <div class="summary-item">
+                    <h4>Market Consolidation</h4>
+                    <p>RB Global dominates: $15.9B GTV, owns Mascus/SmartEquip</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Section -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Addressable Market</div>
+                <div class="kpi-value primary">€54B</div>
+                <div class="kpi-change positive">+6.8% CAGR to 2032</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">2032 Projection</div>
+                <div class="kpi-value">€85B</div>
+                <div class="kpi-change positive">+57% growth</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Competitors Mapped</div>
+                <div class="kpi-value blue">25+</div>
+                <div class="kpi-change positive">8 new in 2024-25</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Recent Funding (Sector)</div>
+                <div class="kpi-value success">€50M+</div>
+                <div class="kpi-change positive">2024-2025</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">AI Parts ID Market</div>
+                <div class="kpi-value">$1.2B</div>
+                <div class="kpi-change positive">+26.7% CAGR</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Largest Independent</div>
+                <div class="kpi-value primary">€3.65B</div>
+                <div class="kpi-change positive">TVH Valuation</div>
+            </div>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">Market Growth Projection</div>
+                <div class="chart-subtitle">Europe Heavy Equipment Aftermarket (€ Billions)</div>
+                <div class="chart-container">
+                    <canvas id="marketGrowthChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Competitor Funding Landscape</div>
+                <div class="chart-subtitle">Recent investment rounds (€ Millions)</div>
+                <div class="chart-container">
+                    <canvas id="fundingChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Country Priority -->
+        <section class="chart-card" style="margin-bottom: 2rem;">
+            <h3 class="section-title">Country Rollout Priority</h3>
+            <div class="country-grid">
+                <div class="country-card">
+                    <div class="country-flag">🇩🇪</div>
+                    <div class="country-name">Germany</div>
+                    <div class="country-rank">#1 - 27% market share</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇫🇷</div>
+                    <div class="country-name">France</div>
+                    <div class="country-rank">#2 - €7B agri market</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇮🇹</div>
+                    <div class="country-name">Italy</div>
+                    <div class="country-rank">#3 - Top agri demand</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇬🇧</div>
+                    <div class="country-name">UK</div>
+                    <div class="country-rank">#4 - Strong aftermarket</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇵🇱</div>
+                    <div class="country-name">Poland</div>
+                    <div class="country-rank">#5 - CEE growth</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇧🇪🇳🇱</div>
+                    <div class="country-name">Benelux</div>
+                    <div class="country-rank">#6 - Logistics hub</div>
+                </div>
+                <div class="country-card">
+                    <div class="country-flag">🇱🇺</div>
+                    <div class="country-name">Luxembourg</div>
+                    <div class="country-rank">Partao HQ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitor Analysis with Tabs -->
+        <section class="chart-card full-width" style="margin-bottom: 2rem;">
+            <h3 class="section-title">Competitive Landscape (25+ Players)</h3>
+
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="showTab('startups')">🚀 Startups (2024-25)</button>
+                <button class="tab-btn" onclick="showTab('distributors')">📦 Distributors</button>
+                <button class="tab-btn" onclick="showTab('oem')">🏭 OEM Platforms</button>
+                <button class="tab-btn" onclick="showTab('marketplaces')">🛒 Marketplaces</button>
+            </div>
+
+            <!-- Startups Tab -->
+            <div id="startups" class="tab-content active">
+                <div class="competitor-grid">
+                    <div class="competitor-card highlight">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Partao <span class="new-badge">NEW 2025</span></div>
+                                <div class="competitor-origin">Luxembourg</div>
+                            </div>
+                            <span class="competitor-type type-startup">Startup</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Funding:</span>
+                                <span class="competitor-stat-value">€3M Seed</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">SKUs:</span>
+                                <span class="competitor-stat-value">5M+ (target 50M)</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">
+                            <strong>⚠️ Key Threat:</strong> Amazon exec team (CEO: 16yr Amazon), AI parts matching, 2000+ brands. Targets SAME sectors (agri, construction, municipal). Backed by Mangrove, FJ Labs, Vinted founder.
+                        </div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Synthavo <span class="new-badge">NEW</span></div>
+                                <div class="competitor-origin">Stuttgart, Germany</div>
+                            </div>
+                            <span class="competitor-type type-startup">Startup</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Funding:</span>
+                                <span class="competitor-stat-value">€4M Seed (Dec 2024)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Focus:</span>
+                                <span class="competitor-stat-value">AI Parts ID</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">AI identifies parts "in under 2 seconds" via smartphone. B2B SaaS model. Samaipata + Senovo backed.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Partium <span class="new-badge">NEW</span></div>
+                                <div class="competitor-origin">Vienna, Austria</div>
+                            </div>
+                            <span class="competitor-type type-startup">Startup</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Funding:</span>
+                                <span class="competitor-stat-value">$15M Series A (Sep 2024)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Scale:</span>
+                                <span class="competitor-stat-value">10K+ Deutsche Bahn users</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Visual AI search for MRO. Deployed at Deutsche Bahn (16,800 person-days saved/year), OBB, Wien Energie.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">SPARETECH</div>
+                                <div class="competitor-origin">Stuttgart, Germany</div>
+                            </div>
+                            <span class="competitor-type type-startup">Startup</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Funding:</span>
+                                <span class="competitor-stat-value">€10M Series A (2023)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Customers:</span>
+                                <span class="competitor-stat-value">120+ (Bosch, Porsche)</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">SaaS data platform. Founded by ex-Porsche engineers. Finds 15% duplicate parts in factory inventories.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Ovoko <span class="new-badge">NEW</span></div>
+                                <div class="competitor-origin">Vilnius, Lithuania</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">Marketplace</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Funding:</span>
+                                <span class="competitor-stat-value">€20M Series B (2024)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Traffic:</span>
+                                <span class="competitor-stat-value">6M monthly visitors</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Used car parts across 17 European countries. Smash Capital backed. Largest Lithuanian startup raise of 2024.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Equippo</div>
+                                <div class="competitor-origin">Zug, Switzerland</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">Marketplace</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Funding:</span>
+                                <span class="competitor-stat-value">Series B (2022)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Investors:</span>
+                                <span class="competitor-stat-value">Hilti, Credit Suisse</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Certified used construction equipment. Global free returns. Wallenius Wilhelmsen backed.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distributors Tab -->
+            <div id="distributors" class="tab-content">
+                <div class="competitor-grid">
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">TVH Group</div>
+                                <div class="competitor-origin">Belgium</div>
+                            </div>
+                            <span class="competitor-type type-distributor">Distributor</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Valuation:</span>
+                                <span class="competitor-stat-value">€3.65B (2021)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">SKUs:</span>
+                                <span class="competitor-stat-value">55M references</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Largest independent. 1M+ stock items, 94% same-day ship, 90K customers in 170 countries.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Rubix</div>
+                                <div class="competitor-origin">UK/EU-wide</div>
+                            </div>
+                            <span class="competitor-type type-distributor">Distributor</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Revenue:</span>
+                                <span class="competitor-stat-value">€3.05B (2024)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">EBITDA:</span>
+                                <span class="competitor-stat-value">€322M</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Industrial MRO. Multi-country footprint with procurement scale.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Kramp</div>
+                                <div class="competitor-origin">Netherlands</div>
+                            </div>
+                            <span class="competitor-type type-distributor">Distributor</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Revenue:</span>
+                                <span class="competitor-stat-value">~€1.24B</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Products:</span>
+                                <span class="competitor-stat-value">2M+ items</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Europe's #1 agricultural parts. AI/ML for inventory (€8M savings Y1). John Deere partner.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">GRANIT PARTS</div>
+                                <div class="competitor-origin">Germany (FRICKE Group)</div>
+                            </div>
+                            <span class="competitor-type type-distributor">Distributor</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Products:</span>
+                                <span class="competitor-stat-value">12M+ (300K in stock)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Dealers:</span>
+                                <span class="competitor-stat-value">40,000+</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Agri + construction + forklifts. 28 EU countries. 2025 Continental partnership.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">SmartEquip (RB Global)</div>
+                                <div class="competitor-origin">Global</div>
+                            </div>
+                            <span class="competitor-type type-distributor">Platform</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Transactions:</span>
+                                <span class="competitor-stat-value">~$2B/year</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Technicians:</span>
+                                <span class="competitor-stat-value">90,000</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">B2B procurement platform. World's 5 largest rental cos: United Rentals, Sunbelt, Loxam, etc.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OEM Tab -->
+            <div id="oem" class="tab-content">
+                <div class="competitor-grid">
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">CNH Industrial</div>
+                                <div class="competitor-origin">Case IH, New Holland, STEYR</div>
+                            </div>
+                            <span class="competitor-type type-oem">OEM</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">AI Coverage:</span>
+                                <span class="competitor-stat-value">200K parts</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Tech:</span>
+                                <span class="competitor-stat-value">Visual AI Search</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">🚨 AI Visual Parts Search leader (Agritechnica 2025). Photo-based ML identification. Expanding to harvesters 2026.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">AGCO Parts</div>
+                                <div class="competitor-origin">Fendt, Massey Ferguson, Valtra</div>
+                            </div>
+                            <span class="competitor-type type-oem">OEM</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Orders:</span>
+                                <span class="competitor-stat-value">5M+ lines/year</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Investment:</span>
+                                <span class="competitor-stat-value">€87M new DC</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Unified B2B platform. 2026 Digital Engineering Award. €87M France distribution center.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Caterpillar</div>
+                                <div class="competitor-origin">Parts.Cat.com</div>
+                            </div>
+                            <span class="competitor-type type-oem">OEM</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Tech:</span>
+                                <span class="competitor-stat-value">CAT SIS 2.0</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Access:</span>
+                                <span class="competitor-stat-value">24/7 global</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Browser-based dealer diagnostics. Serial number lookup. Expanding Africa 2025-26.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Liebherr</div>
+                                <div class="competitor-origin">Parts Shop + MyLiebherr</div>
+                            </div>
+                            <span class="competitor-type type-oem">OEM</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Launch:</span>
+                                <span class="competitor-stat-value">March 2025</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Segments:</span>
+                                <span class="competitor-stat-value">All product lines</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">New unified parts shop (March 2025). Includes used equipment + parts marketplace.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">JCB Parts Online</div>
+                                <div class="competitor-origin">UK (expanding EU 2026)</div>
+                            </div>
+                            <span class="competitor-type type-oem">OEM</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Launch:</span>
+                                <span class="competitor-stat-value">March 2026</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Parts:</span>
+                                <span class="competitor-stat-value">250K catalog</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Magento Commerce 2 platform. Same/next-day collection. Direct delivery option.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">John Deere + Komatsu + Volvo CE</div>
+                                <div class="competitor-origin">Global OEMs</div>
+                            </div>
+                            <span class="competitor-type type-oem">OEM</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Trend:</span>
+                                <span class="competitor-stat-value">All digitalized 2024-26</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">All major OEMs now have digital platforms. Komatsu: Belgium hub, hours delivery. Volvo: AI solutions at Bauma 2025.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketplaces Tab -->
+            <div id="marketplaces" class="tab-content">
+                <div class="competitor-grid">
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Mascus (RB Global)</div>
+                                <div class="competitor-origin">58 countries</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">Marketplace</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Listings:</span>
+                                <span class="competitor-stat-value">360K+ items</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Traffic:</span>
+                                <span class="competitor-stat-value">3.2M/month</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Largest used equipment marketplace. 42 languages. Acquired by Ritchie Bros €24M (2016).</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">Machineryline</div>
+                                <div class="competitor-origin">Europe-wide</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">Marketplace</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Offers:</span>
+                                <span class="competitor-stat-value">38,600+ EU</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Age:</span>
+                                <span class="competitor-stat-value">23 years</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Construction + mining + spare parts. Strong SEO. 80 countries coverage.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">agroparts</div>
+                                <div class="competitor-origin">Germany</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">Platform</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Claim:</span>
+                                <span class="competitor-stat-value">"World's biggest"</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Tech:</span>
+                                <span class="competitor-stat-value">Image recognition</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Multi-brand agricultural parts. Already has image recognition in parts lookup.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">AUTODOC</div>
+                                <div class="competitor-origin">Berlin, Germany</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">E-commerce</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Revenue:</span>
+                                <span class="competitor-stat-value">€1.8B (2025)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Valuation:</span>
+                                <span class="competitor-stat-value">€2.3B (IPO June 2025)</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Automotive but shows what's possible. 6.7M SKUs. B2B segment (AUTODOC PRO) grew 280% in 2024.</div>
+                    </div>
+
+                    <div class="competitor-card">
+                        <div class="competitor-header">
+                            <div>
+                                <div class="competitor-name">IronPlanet (RB Global)</div>
+                                <div class="competitor-origin">Global</div>
+                            </div>
+                            <span class="competitor-type type-marketplace">Marketplace</span>
+                        </div>
+                        <div class="competitor-stats">
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Acquisition:</span>
+                                <span class="competitor-stat-value">$758.5M (2017)</span>
+                            </div>
+                            <div class="competitor-stat">
+                                <span class="competitor-stat-label">Model:</span>
+                                <span class="competitor-stat-value">Auctions + Buy-now</span>
+                            </div>
+                        </div>
+                        <div class="competitor-diff">Online auctions for heavy equipment. IronClad inspection reports. Part of RB Global empire.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Funding Landscape -->
+        <section class="chart-card" style="margin-bottom: 2rem;">
+            <h3 class="section-title">2024-2025 Funding Landscape</h3>
+            <div class="funding-grid">
+                <div class="funding-card">
+                    <div class="funding-date">2025</div>
+                    <div class="funding-company">Partao</div>
+                    <div class="funding-amount">€3M Seed</div>
+                    <div class="funding-desc">Mangrove, FJ Labs, Vinted founder. Amazon exec team. Luxembourg.</div>
+                </div>
+                <div class="funding-card">
+                    <div class="funding-date">Dec 2024</div>
+                    <div class="funding-company">Synthavo</div>
+                    <div class="funding-amount">€4M Seed</div>
+                    <div class="funding-desc">Samaipata, Senovo. AI parts ID "in 2 seconds". Stuttgart.</div>
+                </div>
+                <div class="funding-card">
+                    <div class="funding-date">Sep 2024</div>
+                    <div class="funding-company">Partium</div>
+                    <div class="funding-amount">$15M Series A</div>
+                    <div class="funding-desc">Trestle Partners led. Visual AI. Deutsche Bahn deployed. Vienna.</div>
+                </div>
+                <div class="funding-card">
+                    <div class="funding-date">Sep 2024</div>
+                    <div class="funding-company">Ovoko</div>
+                    <div class="funding-amount">€20M Series B</div>
+                    <div class="funding-desc">Smash Capital. Used parts marketplace. 17 EU countries. Lithuania.</div>
+                </div>
+                <div class="funding-card">
+                    <div class="funding-date">2023</div>
+                    <div class="funding-company">SPARETECH</div>
+                    <div class="funding-amount">€10M Series A</div>
+                    <div class="funding-desc">Insight Partners led. Ex-Porsche founders. 120+ enterprise customers.</div>
+                </div>
+                <div class="funding-card">
+                    <div class="funding-date">Jun 2025</div>
+                    <div class="funding-company">AUTODOC IPO</div>
+                    <div class="funding-amount">€2.3B Valuation</div>
+                    <div class="funding-desc">Frankfurt Stock Exchange. €1.8B revenue. Shows exit potential.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Trends -->
+        <section class="chart-card" style="margin-bottom: 2rem;">
+            <h3 class="section-title">Technology Battleground</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-name">🤖 AI Visual Parts Search</div>
+                    <div class="tech-leader">Leaders: CNH, Synthavo, Partium, Partao</div>
+                    <div class="tech-desc">Photo-based ML identification. CNH covers 200K parts. Synthavo claims 2-second ID.</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">📊 AI Inventory Management</div>
+                    <div class="tech-leader">Leader: Kramp (€8M Y1 savings)</div>
+                    <div class="tech-desc">ML for assortment optimization, duplicate detection, demand forecasting.</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">🔗 ERP/PunchOut Integration</div>
+                    <div class="tech-leader">Standard: OCI/cXML required for enterprise</div>
+                    <div class="tech-desc">61% B2B buyers prefer rep-free experience. Integration is table stakes.</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">📱 Mobile-First Ordering</div>
+                    <div class="tech-leader">Trend: Field technician focus</div>
+                    <div class="tech-desc">SmartEquip: 90K technicians. Partium: multi-modal (photo + text + scanner).</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">🔄 Predictive Maintenance</div>
+                    <div class="tech-leader">Leaders: Hitachi ConSite AI, Caterpillar</div>
+                    <div class="tech-desc">20+ years machine data for parts prediction. Data Act 2025 enables more.</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">♻️ Remanufactured Parts</div>
+                    <div class="tech-leader">All major OEMs now offer REMAN programs</div>
+                    <div class="tech-desc">Circular economy push. CNH: FLEETPRO aftermarket line for legacy equipment.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Growth Opportunities -->
+        <h3 class="section-title">Growth Opportunities (Updated)</h3>
+        <section class="opportunity-grid" style="margin-bottom: 2rem;">
+            <div class="opportunity-card">
+                <div class="opportunity-rank">1</div>
+                <div class="opportunity-title">AI Parts ID as Core Differentiator</div>
+                <div class="opportunity-desc">Visual/photo search is now table stakes. CNH, Synthavo, Partao all leading with it. Must have parity or advantage.</div>
+            </div>
+            <div class="opportunity-card">
+                <div class="opportunity-rank">2</div>
+                <div class="opportunity-title">Germany + France Focus</div>
+                <div class="opportunity-desc">Germany: 27% market share. France: €7B agri. Both Partao and MySpareParts targeting same countries.</div>
+            </div>
+            <div class="opportunity-card">
+                <div class="opportunity-rank">3</div>
+                <div class="opportunity-title">Speed to Market vs Partao</div>
+                <div class="opportunity-desc">Partao has Amazon DNA for ops excellence. Need to accelerate product + supplier onboarding before they scale.</div>
+            </div>
+            <div class="opportunity-card">
+                <div class="opportunity-rank">4</div>
+                <div class="opportunity-title">Multi-Condition Supply Chain</div>
+                <div class="opportunity-desc">OEM + aftermarket + used/refurb. All OEMs now have REMAN programs. Circularity is regulatory tailwind.</div>
+            </div>
+            <div class="opportunity-card">
+                <div class="opportunity-rank">5</div>
+                <div class="opportunity-title">Municipal/Fleet Niche</div>
+                <div class="opportunity-desc">Underserved segment. SmartEquip has some coverage. Bucher Municipal parts through dealers only.</div>
+            </div>
+            <div class="opportunity-card">
+                <div class="opportunity-rank">6</div>
+                <div class="opportunity-title">Procurement Integration</div>
+                <div class="opportunity-desc">PunchOut/OCI/cXML for enterprise buyers. SmartEquip proven model. 61% want rep-free buying.</div>
+            </div>
+        </section>
+
+        <!-- Strategic Recommendations -->
+        <section class="chart-card" style="margin-bottom: 2rem;">
+            <h3 class="section-title">Strategic Recommendations (Updated)</h3>
+            <div class="recommendation-item">
+                <div class="recommendation-number">1</div>
+                <div class="recommendation-content">
+                    <h4>Accelerate AI Parts Identification</h4>
+                    <p>Visual search is no longer optional. Partao, Synthavo, CNH all leading. Partner or build fast. This is the key conversion driver.</p>
+                </div>
+            </div>
+            <div class="recommendation-item">
+                <div class="recommendation-number">2</div>
+                <div class="recommendation-content">
+                    <h4>Watch Partao Closely - Direct Competitor</h4>
+                    <p>Same sectors (agri, construction, municipal), same markets (Germany, France), Amazon ops DNA. €3M seed, targeting 50M SKUs. Track their progress quarterly.</p>
+                </div>
+            </div>
+            <div class="recommendation-item">
+                <div class="recommendation-number">3</div>
+                <div class="recommendation-content">
+                    <h4>Double Down on Municipal Niche</h4>
+                    <p>Less competitive than agri/construction. Partao mentions it but focuses on agri first. SmartEquip has some coverage. Win here first.</p>
+                </div>
+            </div>
+            <div class="recommendation-item">
+                <div class="recommendation-number">4</div>
+                <div class="recommendation-content">
+                    <h4>Consider OEM Partnerships</h4>
+                    <p>OEMs are digitalizing fast but want reach. Kramp-John Deere partnership model. Could complement OEM platforms rather than compete.</p>
+                </div>
+            </div>
+            <div class="recommendation-item">
+                <div class="recommendation-number">5</div>
+                <div class="recommendation-content">
+                    <h4>Raise to Match Competition</h4>
+                    <p>Partao: €3M, targeting next round. Partium: $15M. Ovoko: €20M. To compete at scale, need capital for tech + ops + expansion.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regulations -->
+        <section class="chart-card" style="margin-bottom: 2rem;">
+            <h3 class="section-title">Regulatory Tailwinds 2025-2026</h3>
+            <div class="reg-grid">
+                <div class="reg-item">
+                    <div class="reg-name">⚖️ Right to Repair Directive</div>
+                    <div class="reg-impact">Reinforces parts availability, repair-first policy. Legitimizes independent aftermarket.</div>
+                </div>
+                <div class="reg-item">
+                    <div class="reg-name">🌱 ESPR (Ecodesign)</div>
+                    <div class="reg-impact">Circularity requirements. Better parts metadata mandated. Helps cataloguing.</div>
+                </div>
+                <div class="reg-item">
+                    <div class="reg-name">📊 Data Act (Sep 2025)</div>
+                    <div class="reg-impact">Fair data access for connected products. Enables predictive maintenance data flows.</div>
+                </div>
+                <div class="reg-item">
+                    <div class="reg-name">🔒 Digital Services Act</div>
+                    <div class="reg-impact">Marketplace governance. Trader traceability. Compliance is barrier to entry.</div>
+                </div>
+                <div class="reg-item">
+                    <div class="reg-name">🛡️ Cyber Resilience Act</div>
+                    <div class="reg-impact">Security for IoT/vehicle connectivity. Affects platform architecture.</div>
+                </div>
+                <div class="reg-item">
+                    <div class="reg-name">🔍 CSDD (Due Diligence)</div>
+                    <div class="reg-impact">Supply chain ESG requirements. Marketplace can productize compliance.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p><strong>MySpareParts Market Intelligence Dashboard v2.0</strong></p>
+        <p>25+ competitors analyzed | Research completed March 2026 | Data from industry reports + agent research</p>
+        <p style="margin-top: 0.5rem;"><a href="https://www.myspareparts.com">MySpareParts</a> | Spare Parts Ltd, Zürich, Switzerland</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Chart.js config
+        Chart.defaults.color = '#A0AEC0';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // Market Growth Chart
+        new Chart(document.getElementById('marketGrowthChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032'],
+                datasets: [{
+                    label: 'Heavy Equipment Aftermarket (€B)',
+                    data: [54, 58, 62, 66, 71, 76, 81, 85],
+                    borderColor: '#F36E21',
+                    backgroundColor: 'rgba(243, 110, 33, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, min: 50, max: 90, grid: { color: '#2D3748' }, ticks: { callback: v => '€' + v + 'B' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // Funding Chart
+        new Chart(document.getElementById('fundingChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Ovoko', 'Partium', 'SPARETECH', 'Synthavo', 'Partao'],
+                datasets: [{
+                    label: 'Funding (€M)',
+                    data: [20, 13.5, 10, 4, 3],
+                    backgroundColor: ['#F36E21', '#FF8A47', '#FFA366', '#FFBD85', '#FFD6A4'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { color: '#2D3748' }, ticks: { callback: v => '€' + v + 'M' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
